@@ -3,15 +3,15 @@ import SachModel from "../../../models/SachModel";
 import HinhAnhModel from "../../../models/HinhAnhModel";
 import { lay1AnhCuaMotSach, layToanBoAnhCuaMotQuyenSach } from "../../../api/HinhAnhAPI";
 
-// Nếu không có quá nhiều biến thì bỏ: interface SachPropsInterface đi cũng được
-interface SachPropsInterface {
+// Nếu không có quá nhiều biến thì bỏ: interface CarouselItemInterface đi cũng được
+interface CarouselItemInterface {
 
     // Có thể có một hoặc nhiều biến
     sach: SachModel;
 }
 
 // Hiển thị hình ảnh của quyển sách (Từ HinhAnhAPI)
-const SachProps: React.FC<SachPropsInterface> = (props) => {
+const CarouselItem: React.FC<CarouselItemInterface> = (props) => {
 
     const maSach: number = props.sach.maSach;
 
@@ -31,7 +31,6 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
 
         // Lấy ra ảnh của mỗi quyển sách
         // Nếu thành công: then: Được một cái Data
-        // Lấy ra 1 ảnh của một quyển sách
         lay1AnhCuaMotSach(maSach).then(
             hinhAnhData => {
 
@@ -93,58 +92,17 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
     //                     />
 
     return (
-        <div className="col-md-3 mt-2">
-            <div className="card">
+        <div className="row align-items-center">
 
-                {/* Cách 2: */}
-                {/* Đầu tiên là có ảnh đầu tiên (ảnh 0) và ảnh đầu tiên phải có DL ảnh thì ảnh đầu tiên mới được hiển thị ra làm ảnh đại diện (Icon) */}
-                {/* {danhSachAnh[0] && danhSachAnh[0].duLieuAnh && <img
+        <div className="col-5 text-center">
+            <img src={duLieuAnh} className="float-end" style={{width:'150px'}} />
+        </div>
 
-// Tạm thời lấy ảnh đầu tiên (anh 0-phần tử thứ 0) làm ảnh đại diện (Icon)
-                    src={`${danhSachAnh[0].duLieuAnh}`}
-                    className="card-img-top"
-                    alt={props.sach.tenSach}
-                    style={{ height: '200px' }}
-                />} */}
-
-                {/* Đầu tiên là có ảnh đầu tiên (ảnh 0) và ảnh đầu tiên phải có DL ảnh thì ảnh đầu tiên mới được hiển thị ra làm ảnh đại diện (Icon) */}
-                <img
-                    // Tạm thời lấy ảnh đầu tiên (anh 0-phần tử thứ 0) làm ảnh đại diện (Icon)
-                    src={duLieuAnh}
-                    className="card-img-top"
-                    alt={props.sach.tenSach}
-                    style={{ height: '200px' }}
-                />
-
-                <div className="card-body">
-                    <h5 className="card-title">{props.sach.tenSach}</h5>
-                    <p className="card-text">{props.sach.moTa}</p>
-
-                    {/* Cho phần giá vào một khu vực (thẻ div) gồm: giá niêm yết và giá bán */}
-                    <div className="price">
-                        <span className="original-price">
-                            <del>{props.sach.giaNiemYet}</del>
-                        </span>
-                        <span className="discounted-price">
-                            <strong>{props.sach.giaBan}</strong>
-                        </span>
-                    </div>
-
-                    <div className="row mt-2" role="group">
-                        <div className="col-6">
-                            <a href="#" className="btn btn-secondary btn-block">
-                                <i className="fas fa-heart"></i>
-                            </a>
-                        </div>
-                        <div className="col-6">
-                            <button className="btn btn-danger btn-block">
-                                <i className="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className="col-7">
+            <h5>{props.sach.tenSach}</h5>
+            <p>{props.sach.moTa}</p>
+        </div>
         </div>
     );
 }
-export default SachProps;
+export default CarouselItem;
