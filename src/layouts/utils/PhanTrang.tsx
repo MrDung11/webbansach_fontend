@@ -110,6 +110,8 @@ export const PhanTrang: React.FC<PhanTrangInterface> = (props) => {
                     {
                         danhSachTrang.map(trang => (
                             <li className="page-item" key={trang} onClick={()=>props.phanTrang(trang)}>
+
+{/* "page-link " có space để khi props.trangHienTai===trang? là đúng thì sẽ là page-link active: đúng cú pháp; nếu không sẽ thành page-linkactive: sai cú pháp */}
                                 <button className={"page-link " + (props.trangHienTai===trang?"active":"")}>
                                     {trang}
                                 </button>
