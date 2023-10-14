@@ -25,11 +25,11 @@ const Carousel: React.FC = () => {
 // Lấy ra những quyển sách
 // Nếu thành công: then: Được một cái Data
             lay3SachMoiNhat().then(
-            sachData =>{
+            kq =>{
 
 // Đưa DL vào trong DanhSachQuyenSach
 // Vì đã lấy được sách thì: setDangTaiDuLieu(false): Để không hiện đang tải dữ liệu nữa
-                setDanhSachQuyenSach(sachData);
+                setDanhSachQuyenSach(kq.ketQua);
                 setDangTaiDuLieu(false);
             }
 

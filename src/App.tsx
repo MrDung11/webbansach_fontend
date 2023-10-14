@@ -6,7 +6,6 @@ import Homepage from './layouts/homepage/HomePage';
 import { layToanBoSach } from './api/SachAPI';
 
 function App() {
-  layToanBoSach().then().catch();
   return (
     <div>
       <Navbar />
