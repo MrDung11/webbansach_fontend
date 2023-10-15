@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import SachModel from "../../models/SachModel";
 import SachProps from "./components/SachProps";
-import { layToanBoSach } from "../../api/SachAPI";
+import { layToanBoSach, timKiemSach } from "../../api/SachAPI";
 import { error } from "console";
 import { PhanTrang } from "../utils/PhanTrang";
 
+// Để nhận DL: Từ khóa tìm kiếm
+interface DanhSachSanPhamProps{
+    tuKhoaTimKiem: string;
+}
+
 // Biến DanhSachSanPham
-const DanhSachSanPham: React.FC = () => {
+function DanhSachSanPham ({tuKhoaTimKiem}: DanhSachSanPhamProps){
 
 // Kiểu DL: SachModel; Do có nhiều DL nên sẽ là mảng []; Bản đầu lấy mảng là rỗng []
     const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<SachModel[]>([]);
@@ -29,6 +34,9 @@ const DanhSachSanPham: React.FC = () => {
 // Tìm hiểu khái niệm: useEffect
     useEffect(() => {
 
+        // Nếu từ khóa bằng rỗng thì không tìm kiếm
+        if(tuKhoaTimKiem === ''){   
+
 // Lấy ra những quyển sách
 // Nếu thành công: then: Được một cái Data
 // Trên Website trang đầu tiên là trang 1 mà sprintboot trang đầu tiên là trang 0 nên cần trừ trang hiện tại cho 1 để về 0
@@ -50,7 +58,31 @@ const DanhSachSanPham: React.FC = () => {
                 setBaoLoi(error.message);
             }
         );
-    }, [trangHienTai] // Chỉ gọi một làn (nếu không sẽ chạy mãi mãi: lúc nào cũng truy vấn DL)
+    } else {
+
+        // Nếu từ khóa khác rỗng
+        timKiemSach(tuKhoaTimKiem).then(
+        
+            kq =>{
+
+                // Tìm sách
+                // Vì đã lấy được sách thì: setDangTaiDuLieu(false): Để không hiện đang tải dữ liệu nữa
+                                setDanhSachQuyenSach(kq.ketQua);
+                                setTongSoTrang(kq.tongSoTrang);
+                                setDangTaiDuLieu(false);
+                            }
+                
+                // Nếu thất bại: catch: error.message: Để báo lỗi ra
+                        ).catch(
+                
+                // Nếu gặp lỗi (error): Thì mới báo lỗi ra (error.message)
+                            error => {
+                                setBaoLoi(error.message);
+                            }
+                        );
+        
+    }
+    }, [trangHienTai, tuKhoaTimKiem] // Chỉ gọi một lần (nếu không sẽ chạy mãi mãi: lúc nào cũng truy vấn DL)
     )
 
 // Phân trang: Khi click chuột vào trang nào thì sẽ đến trang đó luôn (trang được click sẽ thành trang hiện tại)
@@ -62,6 +94,17 @@ const phanTrang = (trang: number) => {setTrangHienTai(trang);}
         return (
             <div>
                 <h1>Đang tải dữ liệu</h1>
+            </div>
+        );
+    }
+
+// Nếu nội dung tìm kiếm là rỗng: Hiện không tìm thấy sách theo yêu cầu!
+    if(danhSachQuyenSach.length===0){
+        return (
+            <div className="container">
+                <div className="d-flex align-items-center justify-content-center">
+                    <h1>Hiện không tìm thấy sách theo yêu cầu!</h1>
+                </div>
             </div>
         );
     }

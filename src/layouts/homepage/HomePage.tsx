@@ -3,13 +3,17 @@ import Banner from "./components/Banner";
 import Carousel from "./components/Carousel";
 import DanhSachSanPham from "../product/DanhSachSanPham";
 
+// Tác nhân thay đổi nằm trên thanh Menu (navbar) nhưng nội dung thay đổi lại được thực hiện trên HomePage
+interface HomePageProps{
+    tuKhoaTimKiem: string;
+}
 
-function HomePage(){
+function HomePage({tuKhoaTimKiem}: HomePageProps){
     return(
         <div>
             <Banner />
             <Carousel />
-            <DanhSachSanPham/>
+            <DanhSachSanPham tuKhoaTimKiem={tuKhoaTimKiem}/>
         </div>
     );
 }

@@ -59,7 +59,7 @@ export async function layToanBoSach(trangHienTai: number): Promise<KetQuaInterfa
  
     // *Xác định endpoint*
     // Chỉ đến đường dẫn BackEnd: 'http://localhost:8080/sach?sort=maSach,desc&size=8&page=${trangHienTai}'
-    const duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=2&page=${trangHienTai}`;
+    const duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=${trangHienTai}`;
 
     return laySach(duongDan);
 }
@@ -71,6 +71,23 @@ export async function lay3SachMoiNhat(): Promise<KetQuaInterface> {
         // *Xác định endpoint*
     // Chỉ đến đường dẫn BackEnd: 'http://localhost:8080/sach?sort=maSach,desc&page=0&size=3'
     const duongDan: string = 'http://localhost:8080/sach?sort=maSach,desc&page=0&size=3';
+
+    return laySach(duongDan);
+}
+
+// Tìm kiếm sách (đã có end-point ở backend)
+export async function timKiemSach(tuKhoaTimKiem: string): Promise<KetQuaInterface> {
+    const ketQua: SachModel[] = [];    
+
+        // *Xác định end-point*
+    // Chỉ đến đường dẫn BackEnd: 'http://localhost:8080/sach?sort=maSach,desc&size=8&page=0'
+    // Mặc định đường dãn ban đầu
+    let duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=0`;
+
+    // Kiểm tra đường dẫn khác rỗng: Thì sẽ ra kết quả khác = đường dẫn cũ + &tenSach=${tuKhoaTimKiem}
+    if(tuKhoaTimKiem !== ''){
+        duongDan=`http://localhost:8080/sach/search/findByTenSachContaining?sort=maSach,desc&size=8&page=0&tenSach=${tuKhoaTimKiem}`
+    }
 
     return laySach(duongDan);
 }
