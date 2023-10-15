@@ -76,7 +76,7 @@ export async function lay3SachMoiNhat(): Promise<KetQuaInterface> {
 }
 
 // Tìm kiếm sách (đã có end-point ở backend)
-export async function timKiemSach(tuKhoaTimKiem: string): Promise<KetQuaInterface> {
+export async function timKiemSach(tuKhoaTimKiem: string, maTheLoai: number): Promise<KetQuaInterface> {
     const ketQua: SachModel[] = [];    
 
         // *Xác định end-point*
@@ -85,8 +85,18 @@ export async function timKiemSach(tuKhoaTimKiem: string): Promise<KetQuaInterfac
     let duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=0`;
 
     // Kiểm tra đường dẫn khác rỗng: Thì sẽ ra kết quả khác = đường dẫn cũ + &tenSach=${tuKhoaTimKiem}
-    if(tuKhoaTimKiem !== ''){
+    if(tuKhoaTimKiem !== '' && maTheLoai==0){
+
+        // Tìm qua tên sách
         duongDan=`http://localhost:8080/sach/search/findByTenSachContaining?sort=maSach,desc&size=8&page=0&tenSach=${tuKhoaTimKiem}`
+    } else if(tuKhoaTimKiem === '' && maTheLoai>0){
+
+        // Tìm qua mã thể loại
+        duongDan=`http://localhost:8080/sach/search/findByDanhSachTheLoai_MaTheLoai?sort=maSach,desc&size=8&page=0&maTheLoai=${maTheLoai}`
+    } else if(tuKhoaTimKiem !== '' && maTheLoai>0){
+
+        // Tìm qua mã thể loại rồi đến từ khóa tên sách
+        duongDan=`http://localhost:8080/sach/search/findByTenSachContainingAndDanhSachTheLoai_MaTheLoai?sort=maSach,desc&size=8&page=0&maTheLoai=${maTheLoai}&tenSach=${tuKhoaTimKiem}`
     }
 
     return laySach(duongDan);

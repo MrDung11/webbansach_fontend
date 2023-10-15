@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 interface NavbarProps{
@@ -34,16 +35,37 @@ function Navbar({tuKhoaTimKiem, setTuKhoaTimKiem}: NavbarProps) {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#">Trang chủ</a>
               </li>
+
+              {/* Dùng thẻ a của HTML */}
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Thể loại sách
+                  Thể loại sách dùng thẻ a của HTML
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                  <li><a className="dropdown-item" href="#">Thể loại 1</a></li>
-                  <li><a className="dropdown-item" href="#">Thể loại 2</a></li>
-                  <li><a className="dropdown-item" href="#">Thể loại 3</a></li>
+                  
+                  {/* Thực tế phải lấy ở Database */}
+                  <li><a className="dropdown-item" href="1">Thể loại 1</a></li>
+                  <li><a className="dropdown-item" href="2">Thể loại 2</a></li>
+                  <li><a className="dropdown-item" href="3">Thể loại 3</a></li>
                 </ul>
               </li>
+
+              {/* Dùng componet Link của React Router DOM */}
+              {/* Khi chuyển thể loại không load lại trang mà chỉ thay đổi nội dung: Không cần thay đổi không cần thiết => Đỡ nặng chương trình */}
+              <li className="nav-item dropdown">
+                <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Thể loại sách dùng componet Link của React Router DOM
+                </Link>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown1">
+                  
+                  {/* Thực tế phải lấy ở Database */}
+                  <li><Link className="dropdown-item" to="1">Thể loại 1</Link></li>
+                  <li><Link className="dropdown-item" to="2">Thể loại 2</Link></li>
+                  <li><Link className="dropdown-item" to="3">Thể loại 3</Link></li>
+                </ul>
+              </li> 
+
+
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Quy định bán hàng

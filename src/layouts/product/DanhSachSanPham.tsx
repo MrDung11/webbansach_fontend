@@ -8,10 +8,11 @@ import { PhanTrang } from "../utils/PhanTrang";
 // Để nhận DL: Từ khóa tìm kiếm
 interface DanhSachSanPhamProps{
     tuKhoaTimKiem: string;
+    maTheLoai: number;
 }
 
 // Biến DanhSachSanPham
-function DanhSachSanPham ({tuKhoaTimKiem}: DanhSachSanPhamProps){
+function DanhSachSanPham ({tuKhoaTimKiem, maTheLoai}: DanhSachSanPhamProps){
 
 // Kiểu DL: SachModel; Do có nhiều DL nên sẽ là mảng []; Bản đầu lấy mảng là rỗng []
     const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<SachModel[]>([]);
@@ -34,8 +35,8 @@ function DanhSachSanPham ({tuKhoaTimKiem}: DanhSachSanPhamProps){
 // Tìm hiểu khái niệm: useEffect
     useEffect(() => {
 
-        // Nếu từ khóa bằng rỗng thì không tìm kiếm
-        if(tuKhoaTimKiem === ''){   
+        // Nếu từ khóa tìm kiếm và mã thể loại cùng  bằng rỗng thì không tìm kiếm
+        if(tuKhoaTimKiem === '' && maTheLoai===0){   
 
 // Lấy ra những quyển sách
 // Nếu thành công: then: Được một cái Data
@@ -60,8 +61,8 @@ function DanhSachSanPham ({tuKhoaTimKiem}: DanhSachSanPhamProps){
         );
     } else {
 
-        // Nếu từ khóa khác rỗng
-        timKiemSach(tuKhoaTimKiem).then(
+        // Nếu từ khóa tìm kiếm và mã thể loại cùng khác rỗng
+        timKiemSach(tuKhoaTimKiem, maTheLoai).then(
         
             kq =>{
 
@@ -82,7 +83,7 @@ function DanhSachSanPham ({tuKhoaTimKiem}: DanhSachSanPhamProps){
                         );
         
     }
-    }, [trangHienTai, tuKhoaTimKiem] // Chỉ gọi một lần (nếu không sẽ chạy mãi mãi: lúc nào cũng truy vấn DL)
+    }, [trangHienTai, tuKhoaTimKiem, maTheLoai] // Chỉ gọi một lần (nếu không sẽ chạy mãi mãi: lúc nào cũng truy vấn DL)
     )
 
 // Phân trang: Khi click chuột vào trang nào thì sẽ đến trang đó luôn (trang được click sẽ thành trang hiện tại)
